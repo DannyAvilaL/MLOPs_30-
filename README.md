@@ -99,5 +99,3 @@ mna-mlops-data-cleaning-phase1/
 
 Este proyecto es parte del curso Operaciones de Aprendizaje Automático (Gpo 10) de la Maestría en Analítica (MNA) en el Tecnológico de Monterrey.  
 Uso académico y educativo únicamente.
-
-Equipo [Nombre del equipo] - Fase 1
