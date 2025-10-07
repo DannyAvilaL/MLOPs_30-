@@ -47,8 +47,8 @@ def main():
     numerical_cols = ["Transportation expense", "Distance from Residence to Work", "Service time", "Age", "Work load Average/day", "Hit target", "Son", "Pet", "Weight", "Height", "Body mass index" ]
 
     # Aplicar transformación logarítmica solo a las columnas numéricas
-    df_train[numerical_cols] = df_train[numerical_cols].apply(lambda x: np.log1p(x))
-    df_test[numerical_cols] = df_test[numerical_cols].apply(lambda x: np.log1p(x))
+    #df_train[numerical_cols] = df_train[numerical_cols].apply(lambda x: np.log1p(x))
+    #df_test[numerical_cols] = df_test[numerical_cols].apply(lambda x: np.log1p(x))
 
     #Se aplica normalización
     scaler = MinMaxScaler()

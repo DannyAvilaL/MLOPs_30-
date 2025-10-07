@@ -9,8 +9,8 @@ stages:
       size: 79517
     - path: scripts/prepare.py
       hash: md5
-      md5: da06fa9b9b226b9206fb0b9fa48199dd
-      size: 5052
+      md5: 148191b38837f9722c83fb644ea83b7a
+      size: 5000
     params:
       params.yaml:
         prepare.seed: 20170428
