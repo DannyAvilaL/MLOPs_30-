@@ -10,6 +10,7 @@ import scipy.sparse as sparse
 import yaml
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import LabelEncoder
+from sklearn.decomposition import PCA
 
 
 
@@ -46,33 +47,29 @@ def main():
     #Se determinan las variables numericas como sigue:
     numerical_cols = ["Transportation expense", "Distance from Residence to Work", "Service time", "Age", "Work load Average/day", "Hit target", "Son", "Pet", "Weight", "Height", "Body mass index" ]
 
-    # Aplicar transformación logarítmica solo a las columnas numéricas
-    #df_train[numerical_cols] = df_train[numerical_cols].apply(lambda x: np.log1p(x))
-    #df_test[numerical_cols] = df_test[numerical_cols].apply(lambda x: np.log1p(x))
-
-    #Se aplica normalización
+    # --- Log-transform y normalización ---
     scaler = MinMaxScaler()
     df_train[numerical_cols] = scaler.fit_transform(df_train[numerical_cols])
     df_test[numerical_cols] = scaler.transform(df_test[numerical_cols])
 
+    # --- PCA sobre columnas numéricas ---
+    n_components = 5
+    pca = PCA(n_components=n_components)
+    df_train_pca = pca.fit_transform(df_train[numerical_cols])
+    df_test_pca = pca.transform(df_test[numerical_cols])
 
+    # Añadir columnas PCA al DataFrame
+    for i in range(n_components):
+        df_train[f"PCA_{i+1}"] = df_train_pca[:, i]
+        df_test[f"PCA_{i+1}"] = df_test_pca[:, i]
 
-    df_train[numerical_cols] = scaler.fit_transform(df_train[numerical_cols])
-    df_test[numerical_cols] = scaler.transform(df_test[numerical_cols])
-
-    #Se codifican las variables categóricas
-    # Variables nominales (One-Hot Encoding)
-    nominal_vars = [
-    "Disciplinary failure",
-    "Social drinker",
-    "Social smoker",
-    "Reason_Category"
-    ]
-    #One-Hot Encoding seguro
+    # --- Codificación de variables categóricas ---
+    nominal_vars = ["Disciplinary failure", "Social drinker", "Social smoker", "Reason_Category"]
     df_train = pd.get_dummies(df_train, columns=nominal_vars, drop_first=True)
     train_cols = df_train.columns
     df_test = pd.get_dummies(df_test, columns=nominal_vars, drop_first=True)
     df_test = df_test.reindex(columns=train_cols, fill_value=0)
+
 
 
         # Separar variables predictoras (X) y objetivo (y)
