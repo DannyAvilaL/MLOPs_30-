@@ -1,0 +1,27 @@
+stages:
+  prepare:
+    cmd: python scripts/prepare.py data/raw/work_absenteeism_modified.xml
+    deps:
+    - data/raw/work_absenteeism_modified.csv
+    - scripts/prepare.py
+    params:
+    - prepare.seed
+    - prepare.split
+    outs:
+    - data/processed
+  featurize:
+    cmd: python src/featurization.py data/prepared data/features
+    deps:
+    - data/prepared
+    - src/featurization.py
+    outs:
+    - data/features
+  train:
+    cmd: python src/train.py data/features models
+    deps:
+    - data/features
+    - src/train.py
+    params:
+    - train.seed
+    outs:
+    - models/linear_model.pkl
