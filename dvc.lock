@@ -1,0 +1,61 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python scripts/prepare.py data/raw/work_absenteeism_modified.csv
+    deps:
+    - path: data/raw/work_absenteeism_modified.csv
+      hash: md5
+      md5: 96c318341d1846f567be7127f52d03e1
+      size: 79517
+    - path: scripts/prepare.py
+      hash: md5
+      md5: da06fa9b9b226b9206fb0b9fa48199dd
+      size: 5052
+    params:
+      params.yaml:
+        prepare.seed: 20170428
+        prepare.split: 0.2
+    outs:
+    - path: data/prepared
+      hash: md5
+      md5: 825439482986e995a3106f7377627687.dir
+      size: 49471
+      nfiles: 2
+  featurize:
+    cmd: python scripts/featurization.py data/prepared data/features
+    deps:
+    - path: data/prepared
+      hash: md5
+      md5: 825439482986e995a3106f7377627687.dir
+      size: 49471
+      nfiles: 2
+    - path: scripts/featurization.py
+      hash: md5
+      md5: 9fdb7eb3f0726bf77a84b7fe31653415
+      size: 3188
+    outs:
+    - path: data/features
+      hash: md5
+      md5: 4ed59cad950a367e3372340be97cb5e5.dir
+      size: 73138
+      nfiles: 2
+  train:
+    cmd: python scripts/train.py data/features models
+    deps:
+    - path: data/features
+      hash: md5
+      md5: 4ed59cad950a367e3372340be97cb5e5.dir
+      size: 73138
+      nfiles: 2
+    - path: scripts/train.py
+      hash: md5
+      md5: d31381845395e83abb1bea06f832a621
+      size: 2024
+    params:
+      params.yaml:
+        train.seed: 20170428
+    outs:
+    - path: models/linear_model.pkl
+      hash: md5
+      md5: 8824223b8cdfb12448d2459d789de1a4
+      size: 1219
