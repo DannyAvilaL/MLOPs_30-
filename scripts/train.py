@@ -9,6 +9,8 @@ import sys
 import os
 
 import mlflow
+from xgboost import XGBRegressor
+from mlflow.models import infer_signature
 
 
 
@@ -39,17 +41,25 @@ def main():
     # --- 2️⃣ Entrenar el modelo ---
     mlflow.set_tracking_uri("http://34.209.6.113:80")
 
-    mlflow.set_experiment("/equipo30-linear")
+    mlflow.set_experiment("/equipo30-xgboost")
     with mlflow.start_run():
-        mlflow.log_param("a", 1)
-        mlflow.log_metric("b", 2)
-        model = LinearRegression()
+        params = {
+            "n_estimators": 100,
+            "learning_rate": 0.05,
+            "max_depth": 3,
+            "subsample": 0.9,
+            "colsample_bytree": 0.9,
+            "random_state": 42,
+        }
+        mlflow.log_params(params)
+        # ---  Entrenar modelo XGBoost ---
+        model = XGBRegressor(**params)
         model.fit(X_train, y_train)
 
-        # --- 3️⃣ Predicciones ---
+        # ---  Predicciones ---
         y_pred = model.predict(X_test)
 
-        # --- 4️⃣ Evaluar el modelo ---
+        # ---  Evaluar el modelo ---
         mae = mean_absolute_error(y_test, y_pred)
         mse = mean_squared_error(y_test, y_pred)
         rmse = np.sqrt(mse)
@@ -66,20 +76,14 @@ def main():
         print(f"RMSE (Raíz del Error Cuadrático Medio): {rmse:.2f}")
         print(f"R²   (Coeficiente de determinación): {r2:.3f}")
 
-    # --- 5️⃣ Principales coeficientes ---
-    coef_df = pd.DataFrame({
-        "Variable": X_train.columns,
-        "Coeficiente": model.coef_
-    }).sort_values(by="Coeficiente", ascending=False)
 
-    print("\n🔍 Principales variables que afectan el absentismo:")
-    print(coef_df.head(10))
 
-    # --- 6️⃣ Guardar el modelo ---
-    with open(model_file, "wb") as f:
-        pickle.dump(model, f)
 
-    print(f"\n✅ Modelo guardado en {model_file}")
+        # --- 6️⃣ Guardar el modelo ---
+        with open(model_file, "wb") as f:
+            pickle.dump(model, f)
+
+        print(f"\n✅ Modelo XGBoost guardado en {model_file}")
 
 
 if __name__ == "__main__":
