@@ -1,0 +1,8 @@
+prepare:
+  split: 0.20
+  seed: 20170428
+
+featurize: {}
+
+train:
+  seed: 20170428
