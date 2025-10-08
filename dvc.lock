@@ -49,13 +49,13 @@ stages:
       nfiles: 2
     - path: scripts/train.py
       hash: md5
-      md5: f9fe23fd2c979a74606097f5c40114ff
-      size: 2449
+      md5: 32f6f96811a243de7e79d65cf5dd65c1
+      size: 2475
     params:
       params.yaml:
         train.seed: 20170428
     outs:
     - path: models/linear_model.pkl
       hash: md5
-      md5: b493aa1c1e64829325f8c57d72f362e7
-      size: 763
+      md5: aff39beba20378629a539b1b30c7e1d6
+      size: 111319
