@@ -44,7 +44,7 @@ def main():
     mlflow.set_experiment("/equipo30-xgboost")
     with mlflow.start_run():
         params = {
-            "n_estimators": 100,
+            "n_estimators": 145,
             "learning_rate": 0.05,
             "max_depth": 3,
             "subsample": 0.9,
