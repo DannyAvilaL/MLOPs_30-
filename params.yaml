@@ -1,8 +1,26 @@
 prepare:
   split: 0.20
   seed: 20170428
+  categorical_columns: ["Reason for absence", "Month of absence", "Day of the week", "Seasons", "Disciplinary failure", "Education", "Social drinker", "Social smoker"]
+  numerical_columns: ["Transportation expense", "Distance from Residence to Work", "Service time", "Age", "Work load Average/day", "Hit target", "Son", "Pet", "Weight", "Height", "Body mass index", "Absenteeism time in hours"]
 
-featurize: {}
+featurize:
+  target_col: "Absenteeism time in hours"
+  n_components: 5
+  numerical_cols: ["Transportation expense", "Distance from Residence to Work", "Service time", "Age", "Work load Average/day", "Hit target", "Son", "Pet", "Weight", "Height", "Body mass index"]
+  nominal_cols: ["Disciplinary failure", "Social drinker", "Social smoker", "Reason_Category"]
+  
 
 train:
   seed: 20170428
+  mlflow_uri: "http://127.0.0.1:5000"
+  mlflow_experiment: "/equipo30-xgboost"
+  model_output_name: "xgboost_model.pkl"
+  model_params:
+    n_estimators: 100
+    learning_rate: 0.05
+    max_depth: 3
+    subsample: 0.9
+    colsample_bytree: 0.9
+    random_state: 42
+  reports: "reports/"

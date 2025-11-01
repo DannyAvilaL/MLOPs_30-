@@ -77,8 +77,6 @@ def main():
         print(f"R²   (Coeficiente de determinación): {r2:.3f}")
 
 
-
-
         # --- 6️⃣ Guardar el modelo ---
         with open(model_file, "wb") as f:
             pickle.dump(model, f)
