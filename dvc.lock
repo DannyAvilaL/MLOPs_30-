@@ -1,7 +1,7 @@
 schema: '2.0'
 stages:
   prepare:
-    cmd: python scripts/prepare_oop.py data/raw/work_absenteeism_modified.csv
+    cmd: python scripts/prepare.py data/raw/work_absenteeism_modified.csv
     deps:
     - path: data/raw/work_absenteeism_modified.csv
       hash: md5
@@ -11,7 +11,7 @@ stages:
       hash: md5
       md5: b201a9fb85c33ee8b63e1cdc4e8afd1d
       size: 1112
-    - path: scripts/prepare_oop.py
+    - path: scripts/prepare.py
       hash: md5
       md5: 7bf6c1d1a71da75580a6dedae268dc82
       size: 5675
@@ -22,7 +22,7 @@ stages:
       size: 32861
       nfiles: 2
   featurize:
-    cmd: python scripts/featurization_oop.py data/prepared data/features
+    cmd: python scripts/featurization.py data/prepared data/features
     deps:
     - path: data/prepared
       hash: md5
@@ -33,7 +33,7 @@ stages:
       hash: md5
       md5: b201a9fb85c33ee8b63e1cdc4e8afd1d
       size: 1112
-    - path: scripts/featurization_oop.py
+    - path: scripts/featurization.py
       hash: md5
       md5: 9c8ba009b824efe316fd433a05903299
       size: 5596
@@ -44,7 +44,7 @@ stages:
       size: 34241
       nfiles: 3
   train:
-    cmd: python scripts/train_oop.py data/features models
+    cmd: python scripts/train.py data/features models
     deps:
     - path: data/features
       hash: md5
@@ -55,7 +55,7 @@ stages:
       hash: md5
       md5: b201a9fb85c33ee8b63e1cdc4e8afd1d
       size: 1112
-    - path: scripts/train_oop.py
+    - path: scripts/train.py
       hash: md5
       md5: f5e1cda87b396e4d2f6823cc4d58ac7b
       size: 6053

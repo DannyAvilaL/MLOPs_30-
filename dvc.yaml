@@ -1,25 +1,25 @@
 stages:
   prepare:
-    cmd: python scripts/prepare_oop.py data/raw/work_absenteeism_modified.csv
+    cmd: python scripts/prepare.py data/raw/work_absenteeism_modified.csv
     deps:
-      - scripts/prepare_oop.py
+      - scripts/prepare.py
       - data/raw/work_absenteeism_modified.csv
       - params.yaml
     outs:
       - data/prepared
   featurize:
-    cmd: python scripts/featurization_oop.py data/prepared data/features
+    cmd: python scripts/featurization.py data/prepared data/features
     deps:
       - data/prepared
-      - scripts/featurization_oop.py
+      - scripts/featurization.py
       - params.yaml
     outs:
       - data/features
   train:
-    cmd: python scripts/train_oop.py data/features models
+    cmd: python scripts/train.py data/features models
     deps:
       - data/features
-      - scripts/train_oop.py
+      - scripts/train.py
       - params.yaml
     params:
       - train.seed
