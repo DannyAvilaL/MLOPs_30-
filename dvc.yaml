@@ -2,11 +2,9 @@ stages:
   prepare:
     cmd: python scripts/prepare.py data/raw/work_absenteeism_modified.csv
     deps:
-      - data/raw/work_absenteeism_modified.csv
       - scripts/prepare.py
-    params:
-      - prepare.seed
-      - prepare.split
+      - data/raw/work_absenteeism_modified.csv
+      - params.yaml
     outs:
       - data/prepared
   featurize:
@@ -14,6 +12,7 @@ stages:
     deps:
       - data/prepared
       - scripts/featurization.py
+      - params.yaml
     outs:
       - data/features
   train:
@@ -21,7 +20,10 @@ stages:
     deps:
       - data/features
       - scripts/train.py
+      - params.yaml
     params:
       - train.seed
     outs:
-      - models/linear_model.pkl
+      - models/xgboost_model.pkl
+    metrics:
+      - reports/metrics.json

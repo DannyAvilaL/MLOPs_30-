@@ -7,55 +7,67 @@ stages:
       hash: md5
       md5: 96c318341d1846f567be7127f52d03e1
       size: 79517
+    - path: params.yaml
+      hash: md5
+      md5: b201a9fb85c33ee8b63e1cdc4e8afd1d
+      size: 1112
     - path: scripts/prepare.py
       hash: md5
-      md5: 148191b38837f9722c83fb644ea83b7a
-      size: 5000
-    params:
-      params.yaml:
-        prepare.seed: 20170428
-        prepare.split: 0.2
+      md5: 7bf6c1d1a71da75580a6dedae268dc82
+      size: 5675
     outs:
     - path: data/prepared
       hash: md5
-      md5: 825439482986e995a3106f7377627687.dir
-      size: 49471
+      md5: 502149dfdbdb9270c24b1347d52fd256.dir
+      size: 32861
       nfiles: 2
   featurize:
     cmd: python scripts/featurization.py data/prepared data/features
     deps:
     - path: data/prepared
       hash: md5
-      md5: 825439482986e995a3106f7377627687.dir
-      size: 49471
+      md5: 502149dfdbdb9270c24b1347d52fd256.dir
+      size: 32861
       nfiles: 2
+    - path: params.yaml
+      hash: md5
+      md5: b201a9fb85c33ee8b63e1cdc4e8afd1d
+      size: 1112
     - path: scripts/featurization.py
       hash: md5
-      md5: af9dccfd5f7f894400073d168110cd77
-      size: 3598
+      md5: 9c8ba009b824efe316fd433a05903299
+      size: 5596
     outs:
     - path: data/features
       hash: md5
-      md5: d7c5d2c9262b308f57ca8afe245bae62.dir
-      size: 48355
+      md5: c3cbe4066651b7f3f1b3796b8d125d75.dir
+      size: 34241
       nfiles: 3
   train:
     cmd: python scripts/train.py data/features models
     deps:
     - path: data/features
       hash: md5
-      md5: ab896340d60ff6d7e1ba3c09ac5583a4.dir
-      size: 39957
-      nfiles: 2
+      md5: c3cbe4066651b7f3f1b3796b8d125d75.dir
+      size: 34241
+      nfiles: 3
+    - path: params.yaml
+      hash: md5
+      md5: b201a9fb85c33ee8b63e1cdc4e8afd1d
+      size: 1112
     - path: scripts/train.py
       hash: md5
-      md5: c2cdfb7999f14dfd3a887471f6cc2384
-      size: 2475
+      md5: f5e1cda87b396e4d2f6823cc4d58ac7b
+      size: 6053
     params:
       params.yaml:
         train.seed: 20170428
     outs:
-    - path: models/linear_model.pkl
+    - path: models/xgboost_model.pkl
       hash: md5
-      md5: 6ded83e4219a1c4a6105a360b025f56a
-      size: 162645
+      md5: 7fc7a163f1869a4ff60378254c560b54
+      size: 111255
+    - path: reports/metrics.json
+      hash: md5
+      md5: e331717568bbad8fcce75cd24718525f
+      size: 125
