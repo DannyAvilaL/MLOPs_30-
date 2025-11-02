@@ -13,8 +13,8 @@ featurize:
 
 train:
   seed: 20170428
-  mlflow_uri: "http://127.0.0.1:5000"
-  mlflow_experiment: "/equipo30-xgboost"
+  mlflow_uri: "${MLFLOW_TRACKING_URI}"
+  mlflow_experiment: "${MLFLOW_EXPERIMENT}"
   model_output_name: "xgboost_model.pkl"
   model_params:
     n_estimators: 100

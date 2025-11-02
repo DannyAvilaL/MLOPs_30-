@@ -11,6 +11,8 @@ import mlflow
 import mlflow.xgboost
 from mlflow.models import infer_signature
 
+from dotenv import load_dotenv
+load_dotenv()
 
 class ModelTrainer:
     """
@@ -157,7 +159,9 @@ def main():
     
     try:
         # Carga la sección 'train' del params.yaml
-        params = yaml.safe_load(open("params.yaml"))["train"]
+        raw_params = yaml.safe_load(open("params.yaml"))["train"]
+        # Expande variables de entorno como ${MLFLOW_TRACKING_URI}
+        params = {k: os.path.expandvars(v) if isinstance(v, str) else v for k, v in raw_params.items()}
     except Exception as e:
         sys.stderr.write(f"Error cargando 'params.yaml' (sección 'train'): {e}\n")
         sys.exit(1)
