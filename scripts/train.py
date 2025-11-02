@@ -118,7 +118,7 @@ class ModelTrainer:
             # Registrar el modelo
             mlflow.xgboost.log_model(
                 xgb_model=model,
-                artifact_path="model",
+                name="Dream team model",
                 signature=signature
             )
             print("Modelo, parámetros y métricas registrados en MLflow.")
