@@ -2,3 +2,4 @@
 .vscode
 mlartifacts/
 mlruns_local/
+.env
