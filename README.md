@@ -5,18 +5,8 @@ Tecnológico de Monterrey
 
 ## Descripción General
 
-Este repositorio corresponde a la Fase 1 del proyecto de la materia Operaciones de Aprendizaje Automático (MLOps).  
+Este repositorio corresponde a la Fases 1 y 2 del proyecto de la materia Operaciones de Aprendizaje Automático (MLOps).  
 El objetivo principal es realizar el análisis exploratorio (EDA), la limpieza, el preprocesamiento y el versionado del dataset asignado, preparando así la base de datos para etapas posteriores de modelado y despliegue en un flujo MLOps.
-
-## Objetivos de la Fase 1
-
-- Analizar y comprender el problema a resolver.
-- Manipular y preparar los datos para su uso en modelos de Machine Learning.
-- Realizar tareas de EDA (Exploratory Data Analysis).
-- Limpiar datos eliminando valores nulos, inconsistentes, duplicados o inválidos.
-- Aplicar técnicas de preprocesamiento: normalización, codificación, transformación, etc.
-- Implementar herramientas de versionado de datos (DVC) para asegurar reproducibilidad y trazabilidad.
-- Documentar las actividades por rol y los resultados obtenidos.
 
 ## Estructura del Repositorio
 
@@ -34,8 +24,10 @@ mna-mlops-data-cleaning-phase1/
 │   └── 03_preprocessing.ipynb
 │
 ├── scripts/
-│   ├── cleaning.py         # Código de limpieza automatizado
-│   └── utils.py            # Funciones auxiliares
+│   ├── featurization.py    # Clase que crea los features y el preprocesamiento de los datos de train y test.
+│   ├── prepare.py          # Clase que carga, limpia, procesa y divide los datos para el pipeline de ML
+│   ├── requirements.py     
+│   └── train.py            # Clase para carga de features, entrenamiento y evaluación del modelo
 │
 ├── reports/               # Resultados, visualizaciones, informes
 ├── docs/                  # Documentación adicional del proyecto
@@ -43,6 +35,16 @@ mna-mlops-data-cleaning-phase1/
 ├── requirements.txt      # Dependencias
 └── README.md             # Documentación principal
 ```
+
+## Objetivos de la Fase 1
+
+- Analizar y comprender el problema a resolver.
+- Manipular y preparar los datos para su uso en modelos de Machine Learning.
+- Realizar tareas de EDA (Exploratory Data Analysis).
+- Limpiar datos eliminando valores nulos, inconsistentes, duplicados o inválidos.
+- Aplicar técnicas de preprocesamiento: normalización, codificación, transformación, etc.
+- Implementar herramientas de versionado de datos (DVC) para asegurar reproducibilidad y trazabilidad.
+- Documentar las actividades por rol y los resultados obtenidos.
 
 ## Tecnologías Utilizadas
 
