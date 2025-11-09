@@ -1,0 +1,32 @@
+:8000 {
+    respond /health "ok" 200
+
+    # --- Swagger UI ---
+    handle_path /docs/* {
+        uri strip_prefix /docs
+        reverse_proxy swagger-ui:8080
+    }
+
+    # Redirección corregida
+    redir /docs /docs/ 302
+
+    # --- MLflow predict proxy ---
+    handle_path /predict* {
+        rewrite * /invocations
+        reverse_proxy mlflow-serving:8080 {
+            header_up Host {host}
+            header_up Content-Type "application/json"
+        }
+    }
+
+    # --- Catch-all MLflow routes ---
+    handle {
+        reverse_proxy mlflow-serving:8080
+    }
+
+    log {
+        output stdout
+        format console
+        level INFO
+    }
+}
