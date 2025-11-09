@@ -1,29 +1,46 @@
 :8000 {
-    respond /health "ok" 200
 
-    # --- Swagger UI ---
-    handle_path /docs/* {
-        uri strip_prefix /docs
-        reverse_proxy swagger-ui:8080
-    }
+    route {
 
-    # Redirección corregida
-    redir /docs /docs/ 302
+        # --- Health check local ---
+        handle_path /health {
+            respond "ok" 200
+        }
 
-    # --- MLflow predict proxy ---
-    handle_path /predict* {
-        rewrite * /invocations
-        reverse_proxy mlflow-serving:8080 {
-            header_up Host {host}
-            header_up Content-Type "application/json"
+        # --- Swagger UI completo (sin redirección) ---
+        @swagger {
+            path /docs*
+            path /index.html
+            path /swagger-initializer.js
+            path /swagger-ui.css
+            path /swagger-ui-bundle.js
+            path /swagger-ui-standalone-preset.js
+            path /favicon*
+            path /openapi.yml
+        }
+        handle @swagger {
+            root * /usr/share/caddy/swagger
+            try_files {path} /index.html
+            file_server
+        }
+
+        # --- Predicciones: /predict → /invocations ---
+        handle_path /predict* {
+            rewrite * /invocations
+            reverse_proxy 127.0.0.1:8080 {
+                header_up Content-Type "application/json"
+                header_up Host {host}
+            }
+        }
+
+        # --- Catch-all: todo lo demás hacia MLflow ---
+        handle {
+            reverse_proxy 127.0.0.1:8080
         }
     }
 
-    # --- Catch-all MLflow routes ---
-    handle {
-        reverse_proxy mlflow-serving:8080
-    }
-
+    # --- Logging y compresión ---
+    encode gzip zstd
     log {
         output stdout
         format console
