@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+  mlflow-serving:
+    image: ghcr.io/mlflow/mlflow:v3.6.0
+    container_name: mlflow_serving_remote
+    env_file:
+      - .env
+    environment:
+      MODEL_NAME: ${MODEL_NAME:-best_model}
+      MODEL_STAGE: ${MODEL_STAGE:-test}
+    volumes:
+      - ./serve_remote.sh:/app/serve_remote.sh:ro
+      - ./.env:/app/.env:ro
+    working_dir: /app
+    command: >
+      sh -c "pip install -q xgboost==3.1.1 psutil==7.0.0 &&
+             bash /app/serve_remote.sh"
+    expose:
+      - "8080"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui:v5.17.14
+    container_name: swagger_ui_static
+    environment:
+      SWAGGER_JSON: /oas/openapi.yml
+    ports:
+      - "8081:8080" # hace que Swagger sea visible en http://localhost:8081
+    volumes:
+      - ./openapi:/oas:ro
+    restart: unless-stopped
+    depends_on:
+      - mlflow-serving
+
+  caddy:
+    image: caddy:latest
+    container_name: caddy_proxy
+    depends_on:
+      - mlflow-serving
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
