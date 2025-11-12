@@ -3,3 +3,5 @@
 mlartifacts/
 mlruns_local/
 .env
+*__pycache__*
+*pyc
