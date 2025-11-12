@@ -1,2 +1,22 @@
 /linear_model.pkl
 /xgboost_model.pkl
+import pickle
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Cargar modelo y datos
+with open("models/xgboost_model.pkl", "rb") as f:
+    model = pickle.load(f)
+
+X_test, y_test = pd.read_pickle("data/features/test.pkl")  # ajusta si es diferente
+
+y_pred = model.predict(X_test)
+
+plt.figure(figsize=(6,4))
+plt.scatter(y_test, y_pred, alpha=0.6)
+plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')
+plt.xlabel("Valores Reales")
+plt.ylabel("Predicciones")
+plt.title("Predicciones vs Valores Reales")
+plt.savefig("reports/pred_vs_real.png")
+plt.show()
