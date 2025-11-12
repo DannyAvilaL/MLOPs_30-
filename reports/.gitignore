@@ -1,1 +1,16 @@
 /metrics.json
+import json
+import matplotlib.pyplot as plt
+
+with open("reports/metrics.json") as f:
+    metrics = json.load(f)
+
+names = list(metrics.keys())
+values = list(metrics.values())
+
+plt.figure(figsize=(6,4))
+plt.bar(names, values, color='skyblue')
+plt.title("Métricas del modelo XGBoost")
+plt.ylabel("Valor")
+plt.savefig("reports/metrics_plot.png")
+plt.show()
