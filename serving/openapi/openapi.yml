@@ -1,0 +1,68 @@
+openapi: 3.1.0
+info:
+  title: Absenteeism Prediction API
+  description: >
+    API para probar el endpoint `/predict` (proxy de `/invocations`) del modelo
+    de predicción de ausentismo servido con MLflow y Caddy.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8000
+    description: Servidor local (Caddy Proxy)
+
+paths:
+  /predict:
+    post:
+      summary: Obtener predicción del tiempo de ausentismo
+      description: Envía los valores requeridos al modelo para obtener la predicción.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                inputs:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      PCA_1: { type: number, format: double }
+                      PCA_2: { type: number, format: double }
+                      PCA_3: { type: number, format: double }
+                      PCA_4: { type: number, format: double }
+                      PCA_5: { type: number, format: double }
+                      "Disciplinary failure_1.0": { type: number, format: double }
+                      "Social drinker_1.0": { type: number, format: double }
+                      "Social smoker_1.0": { type: number, format: double }
+                      "Reason_Category_2.0": { type: number, format: double }
+                      "Reason_Category_3.0": { type: number, format: double }
+              example:
+                inputs:
+                  - {
+                      "PCA_1": 0.82,
+                      "PCA_2": -0.17,
+                      "PCA_3": 0.59,
+                      "PCA_4": 1.04,
+                      "PCA_5": -0.42,
+                      "Disciplinary failure_1.0": 0.0,
+                      "Social drinker_1.0": 1.0,
+                      "Social smoker_1.0": 0.0,
+                      "Reason_Category_2.0": 1.0,
+                      "Reason_Category_3.0": 0.0
+                    }
+      responses:
+        "200":
+          description: Predicción generada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  predictions:
+                    type: array
+                    items:
+                      type: number
+                      format: double
+              example:
+                predictions: [4.75]
