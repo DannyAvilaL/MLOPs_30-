@@ -148,6 +148,24 @@ El sistema predice **horas de ausentismo laboral**, apoyando la planificación d
 | Project Lead  | Coordinación, integración de entregables y documentación final. |
 
 
+# MNA – MLOps Proyecto Predictivo de Ausentismo | Fase 3
+
+**Proyecto académico – Maestría en Analítica (MNA) | Operaciones de Aprendizaje Automático (Gpo 10)**  
+Tecnológico de Monterrey
+
+---
+
+Para la última fase, se espera complementar los avances de las últimas dos fases hasta una etapa de despliegue utilizando FastAPI y Docker.
+
+## Implementaciones
+
+1. Pruebas unitarias y de integración
+2. Serving y Portabilida del Modelo con FastAPI
+3. Reproducibilidad del Modelo en otro Entorno
+4. Integración del modelo en un contenedor de Docker
+5. Simulación de Data Drift con Detección de Pérdida de Performance
+
+
 ## Licencia
 
 Este proyecto es parte del curso Operaciones de Aprendizaje Automático (Gpo 10) de la Maestría en Analítica (MNA) en el Tecnológico de Monterrey.  
