@@ -1,0 +1,8 @@
+{
+  "alerts": {
+    "mae_delta_alert": true,
+    "rmse_delta_alert": false,
+    "r2_drop_alert": false
+  },
+  "any_alert": true
+}

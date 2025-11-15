@@ -1,29 +1,29 @@
-# Dónde obtener datos y modelo
-validation_csv: "data/raw/work_absenteeism_modified.csv"
-target_col: "Absenteeism time in hours"
+# === Configuración principal ===
+validation_csv: "monitoring_drift/base_validation_features.csv"
+target_col: "__y__"
 
 mlflow:
-  tracking_uri: "http://localhost:5000"     # cambia si usas otro servidor
-  model_uri: "models:/absenteeism-predic@Production"
+  tracking_uri: "http://34.209.6.113/"
+  experiment: "/equipo30-xgboost"
+  username: "admin"
+  password: "quail3guru*ongoing"
+  model_uri: "models:/absenteeism-predic/1"
 
-# Cómo simular D R I F T (sobre columnas reales del CSV crudo)
+# === Simulación del DRIFT ===
 drift:
-  mean_shifts:                      # desplazamiento de medias (unidades reales del feature)
-    "Body mass index": 3.0          # p.ej., población con IMC más alto
-    "Weight": 5.0                   # +5 kg promedio
-    "Height": -2.0                  # -2 cm promedio
-  zero_out_features:                # simular políticas/hábitos que “desaparecen”
-    - "Social smoker"               # todos dejan de fumar socialmente
-    - "Social drinker"              # todos dejan de beber socialmente
+  mean_shifts:
+    PCA_1: 0.5
+    PCA_2: -0.3
+  zero_out_features:
+    - "Reason_Category_3.0"
   noise:
-    std_fraction: 0.10              # ruido gaussiano = 10% del std por columna numérica
-  sample_fraction: 1.0              # 100% de filas (baja a 0.5 para pruebas rápidas)
+    std_fraction: 0.10
+  sample_fraction: 1.0
 
-# Umbrales de alerta (ajústalos a tu baseline)
 thresholds:
   mae_delta_abs: 0.50
   rmse_delta_abs: 0.60
   r2_drop_abs: 0.05
 
-# Salidas
 outputs_dir: "artifacts/drift_run"
+
