@@ -33,7 +33,7 @@ class ModelTrainer:
             self.reports_dir = params["reports"]
             
         except KeyError as e:
-            sys.stderr.write(f"Error: Parámetro '{e.key}' no encontrado en params.yaml sección 'train'\n")
+            sys.stderr.write(f"Error: Parámetro '{e.args[0]}' no encontrado en params.yaml sección 'train'\n")
             sys.exit(1)
 
         self.train_file = os.path.join(features_dir, "train.pkl")

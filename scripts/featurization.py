@@ -26,7 +26,7 @@ class FeatureEngineer:
         self.test_input = os.path.join(in_path, "test.tsv")
         self.train_output = os.path.join(out_path, "train.pkl")
         self.test_output = os.path.join(out_path, "test.pkl")
-        self.pipeline_output_path = os.path.join(out_path, "preprocessing_pipeline.plk")
+        self.pipeline_output_path = os.path.join(out_path, "preprocessing_pipeline.pkl")
         
         os.makedirs(out_path, exist_ok=True)
         
@@ -102,8 +102,7 @@ class FeatureEngineer:
             pickle.dump((df_test, y_test), f_out)
             
         with open(self.pipeline_output_path, "wb") as f_out:
-            pickle.dump(pipeline, f_out)
-            
+            pickle.dump(pipeline, f_out)            
     
     def run(self):
         # Orquesta la ejecución de todo el proceso de entrenamiento
